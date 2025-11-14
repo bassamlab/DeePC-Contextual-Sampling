@@ -57,15 +57,22 @@
       <div class="card">
         <h2>Abstract</h2>
         <p><strong>Contextual Sampling</strong> is a dynamic data selection strategy for Data-driven Predictive Control (DPC) that selects the most relevant trajectories given the current state and reference. By shrinking the working set while preserving representativeness, it improves conditioning and reduces solve time, enabling real-time control on nonlinear robotic platforms.</p>
-        <p>Experiments on a scaled autonomous vehicle and a quadrotor show that Contextual Sampling achieves comparable or better tracking than Random Sampling and Select-DPC at substantially lower computational cost.</p>
+        <p>Experiments on a scaled autonomous vehicle and a quadrotor show that Contextual Sampling achieves comparable or better tracking than Random Sampling and Select-DPC at lower computational cost.</p>
       </div>
 
       <div class="card" id="videos">
         <h2>Scaled Vehicle Demo</h2>
         <p>Watch the demonstration of Contextual Sampling applied to a scaled autonomous vehicle.</p>
         <div class="video">
-          <iframe src="https://youtu.be/KnsrReKp9PQ" title="Scaled Vehicle Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          <!-- Tip: some browsers/corporate networks block youtube.com embeds. Using youtube-nocookie.com helps. -->
+          <iframe src="https://www.youtube-nocookie.com/embed/KnsrReKp9PQ?rel=0&modestbranding=1" title="Scaled Vehicle Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
         </div>
+        <div class="buttons">
+          <a class="btn" href="https://youtu.be/KnsrReKp9PQ" target="_blank" rel="noopener">Open on YouTube</a>
+        </div>
+        <noscript>
+          <p>JavaScript disabled? Watch directly here: <a href="https://youtu.be/KnsrReKp9PQ" target="_blank" rel="noopener">https://youtu.be/KnsrReKp9PQ</a></p>
+        </noscript>
       </div>
 
       <!-- TODO: Add quadrotor video when available -->
@@ -87,6 +94,5 @@
       </div> -->
     </section>
   </main>
-
 </body>
 </html>
