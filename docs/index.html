@@ -1,12 +1,92 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting to YouTube...</title>
-    <meta http-equiv="refresh" content="0;url=https://youtu.be/KnsrReKp9PQ">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Less is More: Contextual Sampling for Nonlinear Data-Driven Predictive Control</title>
+  <meta name="description" content="Project page with abstract, figures, and videos for the paper 'Contextual Sampling for Nonlinear DPC'." />
+  <meta property="og:title" content="Contextual Sampling for Nonlinear DPC" />
+  <meta property="og:description" content="Project page with abstract, figures, and videos." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/cover.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0d12; --panel:#121621; --muted:#8892a6; --text:#e6edf3; --brand:#7aa2f7; --accent:#8bd5ca; --danger:#ff757f;
+      --radius:18px; --pad:20px; --maxw:1100px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0; padding:0; background:var(--bg); color:var(--text); font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif; line-height:1.6}
+    a{color:var(--brand); text-decoration:none}
+    a:hover{text-decoration:underline}
+    header{position:sticky; top:0; backdrop-filter:blur(10px); background:linear-gradient(180deg, rgba(11,13,18,.9), rgba(11,13,18,.6)); border-bottom:1px solid #1c2340; z-index:10}
+    .wrap{max-width:var(--maxw); margin:0 auto; padding:16px var(--pad)}
+    .title{font-size:clamp(24px, 3vw, 38px); font-weight:700; letter-spacing:.2px}
+    .subtitle{font-size:clamp(14px, 2vw, 16px); color:var(--muted)}
+    .hero{padding:32px var(--pad) 16px}
+    .badges{display:flex; flex-wrap:wrap; gap:10px; margin-top:10px}
+    .badge{background:#121a34; color:#c8d2ea; padding:6px 10px; border-radius:999px; font-size:12px; border:1px solid #1c2340}
+    section{padding:6px var(--pad) 24px}
+    .card{background:var(--panel); border:1px solid #252b43; border-radius:var(--radius); padding:18px; margin-bottom:20px}
+    h2{margin:0 0 10px; font-size:22px}
+    h3{margin:14px 0 6px; font-size:16px; color:var(--muted); font-weight:600}
+    .buttons{display:flex; flex-wrap:wrap; gap:10px; margin:14px 0 4px}
+    .btn{display:inline-flex; align-items:center; gap:8px; background:#1a2240; color:#dce6ff; border:1px solid #2b3561; padding:10px 14px; border-radius:12px; font-weight:600}
+    .btn:hover{background:#202a54}
+    .video{position:relative; width:100%; padding-top:56.25%; border-radius:14px; overflow:hidden; border:1px solid #2a3156; background:#0b0f1e; margin-bottom:16px}
+    .video iframe, .video video{position:absolute; inset:0; width:100%; height:100%}
+    footer{padding:30px var(--pad); border-top:1px solid #1f2747; color:var(--muted)}
+  </style>
 </head>
 <body>
-    <p>If you are not redirected, <a href="https://youtu.be/KnsrReKp9PQ">click here</a>.</p>
+  <header>
+    <div class="wrap">
+      <div class="title">Less is More: Contextual Sampling for Nonlinear Data-Driven Predictive Control</div>
+      <div class="subtitle">Julius Beerwerth and Bassam Alrifaee · University of the Bundeswehr Munich</div>
+      <div class="badges">
+        <span class="badge">ECC 2025 (submitted)</span>
+        <span class="badge">Videos & Results</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section>
+      <div class="card">
+        <h2>Abstract</h2>
+        <p><strong>Contextual Sampling</strong> is a dynamic data selection strategy for Data-driven Predictive Control (DPC) that selects the most relevant trajectories given the current state and reference. By shrinking the working set while preserving representativeness, it improves conditioning and reduces solve time, enabling real-time control on nonlinear robotic platforms.</p>
+        <p>Experiments on a scaled autonomous vehicle and a quadrotor show that Contextual Sampling achieves comparable or better tracking than Random Sampling and Select-DPC at substantially lower computational cost.</p>
+      </div>
+
+      <div class="card" id="videos">
+        <h2>Scaled Vehicle Demo</h2>
+        <p>Watch the demonstration of Contextual Sampling applied to a scaled autonomous vehicle.</p>
+        <div class="video">
+          <iframe src="https://youtu.be/KnsrReKp9PQ" title="Scaled Vehicle Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+        </div>
+      </div>
+
+      <!-- TODO: Add quadrotor video when available -->
+      <!-- <div class="card" id="quadrotor">
+        <h2>Quadrotor Demo (Coming Soon)</h2>
+        <p>Placeholder for upcoming quadrotor experiments video.</p>
+        <div class="video">
+          <video controls preload="metadata" poster="assets/quadrotor-cover.jpg">
+            <source src="assets/quadrotor.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div> -->
+
+      <!-- TODO: Add code section when repository is public -->
+      <!-- <div class="card" id="code">
+        <h2>Code (Coming Soon)</h2>
+        <p>The reference implementation of Contextual Sampling will be published soon.</p>
+      </div> -->
+    </section>
+  </main>
+
 </body>
 </html>
