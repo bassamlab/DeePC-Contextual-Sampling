@@ -33,7 +33,7 @@
     h2{margin:0 0 10px; font-size:22px}
     h3{margin:14px 0 6px; font-size:16px; color:var(--muted); font-weight:600}
     .buttons{display:flex; flex-wrap:wrap; gap:10px; margin:14px 0 4px}
-    .btn{display:inline-flex; align-items:center; gap:8px; background:#1a2240; color:#dce6ff; border:1px solid #2b3561; padding:10px 14px; border-radius:12px; font-weight:600}
+    .btn{display:inline-flex; align-items:center; gap:8px; background:#1a2240; color:#dce6ff; border:1px solid #2b3561; padding:10px 14px; border-radius:12px; font-weight:600; cursor:pointer}
     .btn:hover{background:#202a54}
     .video{position:relative; width:100%; padding-top:56.25%; border-radius:14px; overflow:hidden; border:1px solid #2a3156; background:#0b0f1e; margin-bottom:16px}
     .video iframe, .video video{position:absolute; inset:0; width:100%; height:100%}
@@ -75,6 +75,74 @@
         </noscript>
       </div>
 
+      <div class="card" id="drone-videos">
+        <h2>Drone Experiments — Side-by-Side by Trajectory Count</h2>
+        <p>Compare <strong>Contextual</strong>, <strong>Select-DPC</strong>, and <strong>Random</strong> for the same number of trajectories.</p>
+
+        <!-- Trajectories = 40 -->
+        <h3>Trajectories = 40</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px">
+          <div>
+            <p><strong>Contextual</strong></p>
+            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj40" src="assets/drone_contextual_traj40_seed1.mp4"></video></div>
+          </div>
+          <div>
+            <p><strong>Select-DPC</strong></p>
+            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj40" src="assets/drone_select_dpc_traj40_seed3.mp4"></video></div>
+          </div>
+          <div>
+            <p><strong>Random</strong></p>
+            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj40" src="assets/drone_random_traj40_seed0.mp4"></video></div>
+          </div>
+        </div>
+        <div class="buttons">
+          <button class="btn" data-sync-btn="traj40">▶ Play all (40)</button>
+          <button class="btn" data-sync-pause="traj40">⏸ Pause all (40)</button>
+        </div>
+
+        <!-- Trajectories = 70 -->
+        <h3>Trajectories = 70</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px">
+          <div>
+            <p><strong>Contextual</strong></p>
+            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj70" src="assets/drone_contextual_traj70_seed1.mp4"></video></div>
+          </div>
+          <div>
+            <p><strong>Select-DPC</strong></p>
+            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj70" src="assets/drone_select_dpc_traj70_seed3.mp4"></video></div>
+          </div>
+          <div>
+            <p><strong>Random</strong></p>
+            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj70" src="assets/drone_random_traj70_seed1.mp4"></video></div>
+          </div>
+        </div>
+        <div class="buttons">
+          <button class="btn" data-sync-btn="traj70">▶ Play all (70)</button>
+          <button class="btn" data-sync-pause="traj70">⏸ Pause all (70)</button>
+        </div>
+
+        <!-- Trajectories = 100 -->
+        <h3>Trajectories = 100</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px">
+          <div>
+            <p><strong>Contextual</strong></p>
+            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj100" src="assets/drone_contextual_traj100_seed2.mp4"></video></div>
+          </div>
+          <div>
+            <p><strong>Select-DPC</strong></p>
+            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj100" src="assets/drone_select_dpc_traj100_seed0.mp4"></video></div>
+          </div>
+          <div>
+            <p><strong>Random</strong></p>
+            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj100" src="assets/drone_random_traj100_seed4.mp4"></video></div>
+          </div>
+        </div>
+        <div class="buttons">
+          <button class="btn" data-sync-btn="traj100">▶ Play all (100)</button>
+          <button class="btn" data-sync-pause="traj100">⏸ Pause all (100)</button>
+        </div>
+      </div>
+
       <!-- TODO: Add quadrotor video when available -->
       <!-- <div class="card" id="quadrotor">
         <h2>Quadrotor Demo (Coming Soon)</h2>
@@ -94,5 +162,74 @@
       </div> -->
     </section>
   </main>
+
+  <footer>
+    <div class="wrap">© 2025 Contextual Sampling · This page is under construction (videos and code coming soon).</div>
+  </footer>
+
+  <!-- Sync playback script -->
+  <script>
+  (function () {
+    function getGroup(group) {
+      return Array.from(document.querySelectorAll('video[data-group="'+group+'"]'));
+    }
+
+    async function loadAll(vs) {
+      await Promise.all(vs.map(v =>
+        v.readyState >= 1 ? Promise.resolve()
+          : new Promise(res => v.addEventListener('loadedmetadata', res, {once:true}))
+      ));
+    }
+
+    function syncSeek(vs, t=0) {
+      vs.forEach(v => { try { v.currentTime = t; } catch(e) {} });
+    }
+
+    async function playAll(vs) {
+      vs.forEach(v => v.pause());
+      syncSeek(vs, 0);
+      // Many browsers require a user gesture; we're inside a button click.
+      await Promise.all(vs.map(v => v.play().catch(()=>{})));
+    }
+
+    function correctDrift(vs) {
+      const tick = () => {
+        const times = vs.map(v => v.currentTime || 0);
+        const max = Math.max(...times), min = Math.min(...times);
+        if (max - min > 0.05) { // >50ms
+          vs.forEach(v => {
+            if (!v.paused && (max - v.currentTime) > 0.05) {
+              try { v.currentTime = Math.min(max, v.duration || max); } catch(e) {}
+            }
+          });
+        }
+        if (vs.some(v => !v.paused && !v.ended)) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }
+
+    function bind(group) {
+      const playBtn  = document.querySelector('[data-sync-btn="'+group+'"]');
+      const pauseBtn = document.querySelector('[data-sync-pause="'+group+'"]');
+      if (!playBtn) return;
+
+      playBtn.addEventListener('click', async () => {
+        const vs = getGroup(group);
+        if (!vs.length) return;
+        await loadAll(vs);
+        await playAll(vs);
+        correctDrift(vs);
+      });
+
+      if (pauseBtn) {
+        pauseBtn.addEventListener('click', () => {
+          getGroup(group).forEach(v => v.pause());
+        });
+      }
+    }
+
+    ['traj40','traj70','traj100'].forEach(bind);
+  })();
+  </script>
 </body>
 </html>
