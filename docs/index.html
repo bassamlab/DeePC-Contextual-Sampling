@@ -25,9 +25,6 @@
     .wrap{max-width:var(--maxw); margin:0 auto; padding:16px var(--pad)}
     .title{font-size:clamp(24px, 3vw, 38px); font-weight:700; letter-spacing:.2px}
     .subtitle{font-size:clamp(14px, 2vw, 16px); color:var(--muted)}
-    .hero{padding:32px var(--pad) 16px}
-    .badges{display:flex; flex-wrap:wrap; gap:10px; margin-top:10px}
-    .badge{background:#121a34; color:#c8d2ea; padding:6px 10px; border-radius:999px; font-size:12px; border:1px solid #1c2340}
     section{padding:6px var(--pad) 24px}
     .card{background:var(--panel); border:1px solid #252b43; border-radius:var(--radius); padding:18px; margin-bottom:20px}
     h2{margin:0 0 10px; font-size:22px}
@@ -35,9 +32,13 @@
     .buttons{display:flex; flex-wrap:wrap; gap:10px; margin:14px 0 4px}
     .btn{display:inline-flex; align-items:center; gap:8px; background:#1a2240; color:#dce6ff; border:1px solid #2b3561; padding:10px 14px; border-radius:12px; font-weight:600; cursor:pointer}
     .btn:hover{background:#202a54}
+    .toolbar{display:flex; gap:10px; flex-wrap:wrap; margin:8px 0 6px}
     .video{position:relative; width:100%; padding-top:56.25%; border-radius:14px; overflow:hidden; border:1px solid #2a3156; background:#0b0f1e; margin-bottom:16px}
-    .video iframe, .video video{position:absolute; inset:0; width:100%; height:100%}
-    footer{padding:30px var(--pad); border-top:1px solid #1f2747; color:var(--muted)}
+    .video.square{padding-top:100%} /* 1:1 aspect for square footage */
+    .video iframe, .video video{position:absolute; inset:0; width:100%; height:100%; object-fit:contain}
+    .video.square video{object-fit:cover} /* zoom/crop to remove side bars */
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+    footer{padding:30px var(--pad); border-top:1px solid #1f2747; color:#8892a6}
   </style>
 </head>
 <body>
@@ -45,9 +46,9 @@
     <div class="wrap">
       <div class="title">Less is More: Contextual Sampling for Nonlinear Data-Driven Predictive Control</div>
       <div class="subtitle">Julius Beerwerth and Bassam Alrifaee · University of the Bundeswehr Munich</div>
-      <div class="badges">
-        <span class="badge">ECC 2025 (submitted)</span>
-        <span class="badge">Videos & Results</span>
+      <div class="badges" style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px">
+        <span class="badge" style="background:#121a34; color:#c8d2ea; padding:6px 10px; border-radius:999px; font-size:12px; border:1px solid #1c2340">ECC 2025 (submitted)</span>
+        <span class="badge" style="background:#121a34; color:#c8d2ea; padding:6px 10px; border-radius:999px; font-size:12px; border:1px solid #1c2340">Videos & Results</span>
       </div>
     </div>
   </header>
@@ -56,15 +57,153 @@
     <section>
       <div class="card">
         <h2>Abstract</h2>
-        <p><strong>Contextual Sampling</strong> is a dynamic data selection strategy for Data-driven Predictive Control (DPC) that selects the most relevant trajectories given the current state and reference. By shrinking the working set while preserving representativeness, it improves conditioning and reduces solve time, enabling real-time control on nonlinear robotic platforms.</p>
-        <p>Experiments on a scaled autonomous vehicle and a quadrotor show that Contextual Sampling achieves comparable or better tracking than Random Sampling and Select-DPC at lower computational cost.</p>
+        <p><strong>Contextual Sampling</strong> is a adaptive data selection strategy for Data-driven Predictive Control (DPC) that selects the most relevant trajectories given the current state and reference. By shrinking the working set while preserving representativeness, it improves conditioning and reduces solve time, enabling real-time control on nonlinear robotic platforms.</p>
+        <p>Experiments on a scaled autonomous vehicle and a quadrotor show that Contextual Sampling achieves comparable or better tracking than Random Sampling and Select-DPC at substantially lower computational cost.</p>
       </div>
 
+      <!-- VEHICLES FIRST -->
+      <div class="card" id="veh-videos">
+        <h2>Vehicle Experiments — Side‑by‑Side by Trajectory Count</h2>
+        <p>Compare <strong>Contextual</strong>, <strong>Select‑DPC</strong>, and <strong>Random</strong> for the same number of trajectories on the vehicle platform. Square footage is zoom‑cropped to remove side bars.</p>
+
+        <h3>Trajectories = 30</h3>
+        <div class="grid">
+          <div>
+            <p><strong>Contextual</strong></p>
+            <div class="video square"><video controls preload="metadata" muted playsinline data-group="veh30" src="assets/veh_contextual_traj30_seed1.mp4"></video></div>
+          </div>
+          <div>
+            <p><strong>Select‑DPC</strong></p>
+            <div class="video square"><video controls preload="metadata" muted playsinline data-group="veh30" src="assets/veh_select_dpc_traj30_seed4.mp4"></video></div>
+          </div>
+          <div>
+            <p><strong>Random</strong></p>
+            <div class="video square"><video controls preload="metadata" muted playsinline data-group="veh30" src="assets/veh_random_traj30_seed0.mp4"></video></div>
+          </div>
+        </div>
+        <div class="toolbar">
+          <button class="btn" data-sync-btn="veh30">▶ Play all (30)</button>
+          <button class="btn" data-sync-pause="veh30">⏸ Pause (30)</button>
+          <button class="btn" data-sync-restart="veh30">⟲ Restart (30)</button>
+        </div>
+
+        <h3>Trajectories = 60</h3>
+        <div class="grid">
+          <div>
+            <p><strong>Contextual</strong></p>
+            <div class="video square"><video controls preload="metadata" muted playsinline data-group="veh60" src="assets/veh_contextual_traj60_seed4.mp4"></video></div>
+          </div>
+          <div>
+            <p><strong>Select‑DPC</strong></p>
+            <div class="video square"><video controls preload="metadata" muted playsinline data-group="veh60" src="assets/veh_select_dpc_traj60_seed2.mp4"></video></div>
+          </div>
+          <div>
+            <p><strong>Random</strong></p>
+            <div class="video square"><video controls preload="metadata" muted playsinline data-group="veh60" src="assets/veh_random_traj60_seed3.mp4"></video></div>
+          </div>
+        </div>
+        <div class="toolbar">
+          <button class="btn" data-sync-btn="veh60">▶ Play all (60)</button>
+          <button class="btn" data-sync-pause="veh60">⏸ Pause (60)</button>
+          <button class="btn" data-sync-restart="veh60">⟲ Restart (60)</button>
+        </div>
+
+        <h3>Trajectories = 90</h3>
+        <div class="grid">
+          <div>
+            <p><strong>Contextual</strong></p>
+            <div class="video square"><video controls preload="metadata" muted playsinline data-group="veh90" src="assets/veh_contextual_traj90_seed4.mp4"></video></div>
+          </div>
+          <div>
+            <p><strong>Select‑DPC</strong></p>
+            <div class="video square"><video controls preload="metadata" muted playsinline data-group="veh90" src="assets/veh_select_dpc_traj90_seed0.mp4"></video></div>
+          </div>
+          <div>
+            <p><strong>Random</strong></p>
+            <div class="video square"><video controls preload="metadata" muted playsinline data-group="veh90" src="assets/veh_random_traj90_seed0.mp4"></video></div>
+          </div>
+        </div>
+        <div class="toolbar">
+          <button class="btn" data-sync-btn="veh90">▶ Play all (90)</button>
+          <button class="btn" data-sync-pause="veh90">⏸ Pause (90)</button>
+          <button class="btn" data-sync-restart="veh90">⟲ Restart (90)</button>
+        </div>
+      </div>
+
+      <!-- DRONE SECOND -->
+      <div class="card" id="drone-videos">
+        <h2>Drone Experiments — Side‑by‑Side by Trajectory Count</h2>
+        <p>Compare <strong>Contextual</strong>, <strong>Select‑DPC</strong>, and <strong>Random</strong> for the same number of trajectories.</p>
+
+        <h3>Trajectories = 40</h3>
+        <div class="grid">
+          <div>
+            <p><strong>Contextual</strong> (traj40, seed1)</p>
+            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj40" src="assets/drone_contextual_traj40_seed1.mp4"></video></div>
+          </div>
+          <div>
+            <p><strong>Select‑DPC</strong> (traj40, seed3)</p>
+            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj40" src="assets/drone_select_dpc_traj40_seed3.mp4"></video></div>
+          </div>
+          <div>
+            <p><strong>Random</strong> (traj40, seed0)</p>
+            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj40" src="assets/drone_random_traj40_seed0.mp4"></video></div>
+          </div>
+        </div>
+        <div class="toolbar">
+          <button class="btn" data-sync-btn="traj40">▶ Play all (40)</button>
+          <button class="btn" data-sync-pause="traj40">⏸ Pause (40)</button>
+          <button class="btn" data-sync-restart="traj40">⟲ Restart (40)</button>
+        </div>
+
+        <h3>Trajectories = 70</h3>
+        <div class="grid">
+          <div>
+            <p><strong>Contextual</strong> (traj70, seed1)</p>
+            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj70" src="assets/drone_contextual_traj70_seed1.mp4"></video></div>
+          </div>
+          <div>
+            <p><strong>Select‑DPC</strong> (traj70, seed3)</p>
+            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj70" src="assets/drone_select_dpc_traj70_seed3.mp4"></video></div>
+          </div>
+          <div>
+            <p><strong>Random</strong> (traj70, seed1)</p>
+            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj70" src="assets/drone_random_traj70_seed1.mp4"></video></div>
+          </div>
+        </div>
+        <div class="toolbar">
+          <button class="btn" data-sync-btn="traj70">▶ Play all (70)</button>
+          <button class="btn" data-sync-pause="traj70">⏸ Pause (70)</button>
+          <button class="btn" data-sync-restart="traj70">⟲ Restart (70)</button>
+        </div>
+
+        <h3>Trajectories = 100</h3>
+        <div class="grid">
+          <div>
+            <p><strong>Contextual</strong> (traj100, seed2)</p>
+            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj100" src="assets/drone_contextual_traj100_seed2.mp4"></video></div>
+          </div>
+          <div>
+            <p><strong>Select‑DPC</strong> (traj100, seed0)</p>
+            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj100" src="assets/drone_select_dpc_traj100_seed0.mp4"></video></div>
+          </div>
+          <div>
+            <p><strong>Random</strong> (traj100, seed4)</p>
+            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj100" src="assets/drone_random_traj100_seed4.mp4"></video></div>
+          </div>
+        </div>
+        <div class="toolbar">
+          <button class="btn" data-sync-btn="traj100">▶ Play all (100)</button>
+          <button class="btn" data-sync-pause="traj100">⏸ Pause (100)</button>
+          <button class="btn" data-sync-restart="traj100">⟲ Restart (100)</button>
+        </div>
+      </div>
+
+      <!-- Standalone scaled vehicle demo (YouTube) -->
       <div class="card" id="videos">
         <h2>Scaled Vehicle Demo</h2>
         <p>Watch the demonstration of Contextual Sampling applied to a scaled autonomous vehicle.</p>
         <div class="video">
-          <!-- Tip: some browsers/corporate networks block youtube.com embeds. Using youtube-nocookie.com helps. -->
           <iframe src="https://www.youtube-nocookie.com/embed/KnsrReKp9PQ?rel=0&modestbranding=1" title="Scaled Vehicle Demo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
         </div>
         <div class="buttons">
@@ -74,86 +213,6 @@
           <p>JavaScript disabled? Watch directly here: <a href="https://youtu.be/KnsrReKp9PQ" target="_blank" rel="noopener">https://youtu.be/KnsrReKp9PQ</a></p>
         </noscript>
       </div>
-
-      <div class="card" id="drone-videos">
-        <h2>Drone Experiments — Side-by-Side by Trajectory Count</h2>
-        <p>Compare <strong>Contextual</strong>, <strong>Select-DPC</strong>, and <strong>Random</strong> for the same number of trajectories.</p>
-
-        <!-- Trajectories = 40 -->
-        <h3>Trajectories = 40</h3>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px">
-          <div>
-            <p><strong>Contextual</strong></p>
-            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj40" src="assets/drone_contextual_traj40_seed1.mp4"></video></div>
-          </div>
-          <div>
-            <p><strong>Select-DPC</strong></p>
-            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj40" src="assets/drone_select_dpc_traj40_seed3.mp4"></video></div>
-          </div>
-          <div>
-            <p><strong>Random</strong></p>
-            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj40" src="assets/drone_random_traj40_seed0.mp4"></video></div>
-          </div>
-        </div>
-        <div class="buttons">
-          <button class="btn" data-sync-btn="traj40">▶ Play all (40)</button>
-          <button class="btn" data-sync-pause="traj40">⏸ Pause all (40)</button>
-        </div>
-
-        <!-- Trajectories = 70 -->
-        <h3>Trajectories = 70</h3>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px">
-          <div>
-            <p><strong>Contextual</strong></p>
-            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj70" src="assets/drone_contextual_traj70_seed1.mp4"></video></div>
-          </div>
-          <div>
-            <p><strong>Select-DPC</strong></p>
-            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj70" src="assets/drone_select_dpc_traj70_seed3.mp4"></video></div>
-          </div>
-          <div>
-            <p><strong>Random</strong></p>
-            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj70" src="assets/drone_random_traj70_seed1.mp4"></video></div>
-          </div>
-        </div>
-        <div class="buttons">
-          <button class="btn" data-sync-btn="traj70">▶ Play all (70)</button>
-          <button class="btn" data-sync-pause="traj70">⏸ Pause all (70)</button>
-        </div>
-
-        <!-- Trajectories = 100 -->
-        <h3>Trajectories = 100</h3>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px">
-          <div>
-            <p><strong>Contextual</strong></p>
-            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj100" src="assets/drone_contextual_traj100_seed2.mp4"></video></div>
-          </div>
-          <div>
-            <p><strong>Select-DPC</strong></p>
-            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj100" src="assets/drone_select_dpc_traj100_seed0.mp4"></video></div>
-          </div>
-          <div>
-            <p><strong>Random</strong></p>
-            <div class="video"><video controls preload="metadata" muted playsinline data-group="traj100" src="assets/drone_random_traj100_seed4.mp4"></video></div>
-          </div>
-        </div>
-        <div class="buttons">
-          <button class="btn" data-sync-btn="traj100">▶ Play all (100)</button>
-          <button class="btn" data-sync-pause="traj100">⏸ Pause all (100)</button>
-        </div>
-      </div>
-
-      <!-- TODO: Add quadrotor video when available -->
-      <!-- <div class="card" id="quadrotor">
-        <h2>Quadrotor Demo (Coming Soon)</h2>
-        <p>Placeholder for upcoming quadrotor experiments video.</p>
-        <div class="video">
-          <video controls preload="metadata" poster="assets/quadrotor-cover.jpg">
-            <source src="assets/quadrotor.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        </div>
-      </div> -->
 
       <!-- TODO: Add code section when repository is public -->
       <!-- <div class="card" id="code">
@@ -188,7 +247,6 @@
     async function playAll(vs) {
       vs.forEach(v => v.pause());
       syncSeek(vs, 0);
-      // Many browsers require a user gesture; we're inside a button click.
       await Promise.all(vs.map(v => v.play().catch(()=>{})));
     }
 
@@ -211,6 +269,7 @@
     function bind(group) {
       const playBtn  = document.querySelector('[data-sync-btn="'+group+'"]');
       const pauseBtn = document.querySelector('[data-sync-pause="'+group+'"]');
+      const restartBtn = document.querySelector('[data-sync-restart="'+group+'"]');
       if (!playBtn) return;
 
       playBtn.addEventListener('click', async () => {
@@ -226,9 +285,18 @@
           getGroup(group).forEach(v => v.pause());
         });
       }
+
+      if (restartBtn) {
+        restartBtn.addEventListener('click', async () => {
+          const vs = getGroup(group);
+          await loadAll(vs);
+          vs.forEach(v => v.pause());
+          syncSeek(vs, 0);
+        });
+      }
     }
 
-    ['traj40','traj70','traj100'].forEach(bind);
+    ['veh30','veh60','veh90','traj40','traj70','traj100'].forEach(bind);
   })();
   </script>
 </body>
